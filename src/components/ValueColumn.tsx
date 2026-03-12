@@ -1,3 +1,5 @@
+import { useDroppable } from '@dnd-kit/core';
+
 import type { ColumnImportance, Value } from '../types';
 import ValueCard from '../components/ValueCard';
 import styles from './ValueColumn.module.css';
@@ -15,8 +17,13 @@ const colorMap = {
 };
 
 export default function ValueColumn({ header, importance, values }: ValueColumnProps) {
+    // TODO: Use isOver for visual styling
+    const { setNodeRef, isOver } = useDroppable({
+      id: importance,
+    });
+
     return (
-        <div className={`${styles.column} ${colorMap[importance]}`}>
+        <div ref={setNodeRef} className={`${styles.column} ${colorMap[importance]}`}>
             <p className={styles.header}>{header}</p>
             <div>
                 {values.map((value) => (
