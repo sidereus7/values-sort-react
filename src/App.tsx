@@ -1,8 +1,13 @@
 import { useState } from 'react';
-import type { Value, Importance } from './types';
-import valuesData from './data/valuecards.json';
+
+import CardDeck from './components/CardDeck';
 import ValueColumn from './components/ValueColumn';
+
+import type { Value, Importance } from './types';
+
 import styles from './App.module.css';
+
+import valuesData from './data/valuecards.json';
 
 const initialValues: Value[] = valuesData.map((value, index) => ({
   ...value,
@@ -16,6 +21,9 @@ export default function App() {
   return (
     <div className={styles.app}>
       <p className={styles.title}>Values Sort</p>
+
+      <CardDeck values={values.filter((value) => value.importance === 'unsorted')}/>
+
       <div className={styles.columns}>
         <ValueColumn
           header='Very Important'

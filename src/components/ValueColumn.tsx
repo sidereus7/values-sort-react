@@ -9,9 +9,9 @@ interface ValueColumnProps {
 }
 
 const colorMap = {
-  'very-important': styles.veryImportant,
-  'important': styles.important,
-  'not-important': styles.notImportant,
+    'very-important': styles.veryImportant,
+    'important': styles.important,
+    'not-important': styles.notImportant,
 };
 
 export default function ValueColumn({ header, importance, values }: ValueColumnProps) {
