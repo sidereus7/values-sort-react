@@ -1,15 +1,23 @@
-import type { Value } from '../types';
+import type { ColumnImportance, Value } from '../types';
 import ValueCard from '../components/ValueCard';
+import styles from './ValueColumn.module.css';
 
 interface ValueColumnProps {
     header: string;
+    importance: ColumnImportance;
     values: Value[];
 }
 
-export default function ValueColumn({ header, values }: ValueColumnProps) {
+const colorMap = {
+  'very-important': styles.veryImportant,
+  'important': styles.important,
+  'not-important': styles.notImportant,
+};
+
+export default function ValueColumn({ header, importance, values }: ValueColumnProps) {
     return (
-        <div>
-            <p className="column-header">{header}</p>
+        <div className={`${styles.column} ${colorMap[importance]}`}>
+            <p className={styles.header}>{header}</p>
             <div>
                 {values.map((value) => (
                     <ValueCard key={value.id} value={value} />

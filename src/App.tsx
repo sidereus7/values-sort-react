@@ -2,6 +2,7 @@ import { useState } from 'react';
 import type { Value, Importance } from './types';
 import valuesData from './data/valuecards.json';
 import ValueColumn from './components/ValueColumn';
+import styles from './App.module.css';
 
 const initialValues: Value[] = valuesData.map((value, index) => ({
   ...value,
@@ -13,10 +14,25 @@ export default function App() {
   const [values, setValues] = useState<Value[]>(initialValues);
 
   return (
-    <div>
-      <ValueColumn header={'Very Important'} values={values.filter((value) => value.importance === 'very-important')} />
-      <ValueColumn header={'Important'} values={values.filter((value) => value.importance === 'important')} />
-      <ValueColumn header={'Not Important'} values={values.filter((value) => value.importance === 'not-important')} />
+    <div className={styles.app}>
+      <p className={styles.title}>Values Sort</p>
+      <div className={styles.columns}>
+        <ValueColumn
+          header='Very Important'
+          importance='very-important'
+          values={values.filter((value) => value.importance === 'very-important')}
+        />
+        <ValueColumn
+          header='Important'
+          importance='important'
+          values={values.filter((value) => value.importance === 'important')}
+        />
+        <ValueColumn
+          header='Not Important'
+          importance='not-important'
+          values={values.filter((value) => value.importance === 'not-important')}
+        />
+      </div>
     </div>
   );
 }
