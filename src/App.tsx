@@ -2,14 +2,11 @@ import { useEffect, useState } from 'react';
 
 import { DndContext, type DragEndEvent } from '@dnd-kit/core';
 
-import CardDeck from './components/CardDeck';
-import ValueColumn from './components/ValueColumn';
+import type { Importance, Phase, Value } from './types';
 
-import type { Value, Importance } from './types';
+import SortingView from './components/SortingView';
 
-import styles from './App.module.css';
-
-import valuesData from './data/valuecards.json';
+import valuesData from './data/valuecards_small.json';
 
 const initialValues: Value[] = valuesData.map((value, index) => ({
   ...value,
@@ -18,7 +15,9 @@ const initialValues: Value[] = valuesData.map((value, index) => ({
 }));
 
 export default function App() {
-  // load from local storage if available
+  const [phase, setPhase] = useState<Phase>('sorting');
+
+  // load cards from local storage if available
   const [values, setValues] = useState<Value[]>(() => {
     const saved = localStorage.getItem('values');
     return saved ? JSON.parse(saved) : initialValues;
@@ -42,31 +41,16 @@ export default function App() {
     ));
   }
 
+  function handleProceedToParing() {
+    setPhase('paring');
+  }
+
   return (
     <DndContext onDragEnd={handleDragEnd}>
-      <div className={styles.app}>
-        <p className={styles.title}>Values Sort</p>
-
-        <CardDeck values={values.filter((value) => value.importance === 'unsorted')}/>
-
-        <div className={styles.columns}>
-          <ValueColumn
-            header='Very Important'
-            importance='very-important'
-            values={values.filter((value) => value.importance === 'very-important')}
-          />
-          <ValueColumn
-            header='Important'
-            importance='important'
-            values={values.filter((value) => value.importance === 'important')}
-          />
-          <ValueColumn
-            header='Not Important'
-            importance='not-important'
-            values={values.filter((value) => value.importance === 'not-important')}
-          />
-        </div>
-      </div>
+      {phase === 'sorting' && <SortingView values={values} onProceed={handleProceedToParing} />}
+    {/*  {phase === 'paring' && <ParingView ... />}
+         {phase === 'ranking' && <RankingView ... />}
+         {phase === 'complete' && <ResultsView ... />*/}
     </DndContext>
   );
 }

@@ -7,3 +7,4 @@ export interface Value {
 
 export type Importance = 'unsorted' | 'very-important' | 'important' | 'not-important';
 export type ColumnImportance = 'very-important' | 'important' | 'not-important';
+export type Phase = 'sorting' | 'paring' | 'ranking' | 'complete';
