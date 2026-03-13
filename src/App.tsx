@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { DndContext, type DragEndEvent } from '@dnd-kit/core';
 
@@ -18,7 +18,16 @@ const initialValues: Value[] = valuesData.map((value, index) => ({
 }));
 
 export default function App() {
-  const [values, setValues] = useState<Value[]>(initialValues);
+  // load from local storage if available
+  const [values, setValues] = useState<Value[]>(() => {
+    const saved = localStorage.getItem('values');
+    return saved ? JSON.parse(saved) : initialValues;
+  });
+
+  // save to local storage on change
+  useEffect(() => {
+    localStorage.setItem('values', JSON.stringify(values));
+  }, [values]);
 
   // give dragged card the importance of the destination column
   function handleDragEnd(event: DragEndEvent) {
